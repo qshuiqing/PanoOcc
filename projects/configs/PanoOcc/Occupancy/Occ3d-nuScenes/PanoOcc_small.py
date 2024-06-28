@@ -325,7 +325,7 @@ lr_config = dict(
     warmup_ratio=1.0 / 3,
     min_lr_ratio=1e-3)
 total_epochs = 24
-evaluation = dict(interval=4, pipeline=test_pipeline)
+evaluation = dict(interval=25, pipeline=test_pipeline)
 
 runner = dict(type='EpochBasedRunner', max_epochs=total_epochs)
 # load_from = 'ckpts/r101_dcn_fcos3d_pretrain.pth'
@@ -336,7 +336,7 @@ log_config = dict(
         dict(type='TensorboardLoggerHook')
     ])
 
-checkpoint_config = dict(interval=4)
+checkpoint_config = dict(interval=1)
 
 # ===> per class IoU of 6019 samples:
 # ===> others - IoU = 8.64
