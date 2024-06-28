@@ -211,7 +211,7 @@ class PanoOcc(MVXTwoStageDetector):
             dict: Losses of different branches.
         """
 
-        len_queue = img.size(1)
+        len_queue = img.size(1)  # 4
         prev_img = img[:, :-1, ...]
         img = img[:, -1, ...]
 
