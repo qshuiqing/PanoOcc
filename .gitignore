@@ -166,3 +166,4 @@ ckpts/
 test/
 test_panoocc/
 *.pkl
+.idea

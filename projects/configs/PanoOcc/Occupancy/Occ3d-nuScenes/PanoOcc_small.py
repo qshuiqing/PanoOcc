@@ -45,7 +45,7 @@ ida_aug_conf = {
 _dim_ = 256
 _pos_dim_ = _dim_//2
 _ffn_dim_ = _dim_*2
-_num_levels_ = 5
+_num_levels_ = 4
 # Voxel Queries Size
 bev_h_ = 50
 bev_w_ = 50
@@ -64,21 +64,20 @@ model = dict(
     use_grid_mask=True,
     video_test_mode=True,
     time_interval = time_interval,
+    pretrained=dict(img='torchvision://resnet50'),
     img_backbone=dict(
         type='ResNet',
-        depth=101,
+        depth=50,
         num_stages=4,
-        out_indices=(0, 1, 2, 3),
+        out_indices=(1, 2, 3),
         frozen_stages=1,
         norm_cfg=dict(type='BN2d', requires_grad=False),
         norm_eval=True,
-        style='caffe',
-        with_cp = True,
-        dcn=dict(type='DCNv2', deform_groups=1, fallback_on_stride=False), # original DCNv2 will print log when perform load_state_dict
-        stage_with_dcn=(False, False, True, True)),
+        with_cp=True,
+        style='pytorch'),
     img_neck=dict(
         type='FPN',
-        in_channels=[256, 512, 1024, 2048],
+        in_channels=[512, 1024, 2048],
         out_channels=_dim_,
         start_level=0,
         add_extra_convs='on_output',
@@ -326,11 +325,11 @@ lr_config = dict(
     warmup_iters=500,
     warmup_ratio=1.0 / 3,
     min_lr_ratio=1e-3)
-total_epochs = 12
-evaluation = dict(interval=4, pipeline=test_pipeline)
+total_epochs = 24
+evaluation = dict(interval=24, pipeline=test_pipeline)
 
 runner = dict(type='EpochBasedRunner', max_epochs=total_epochs)
-load_from = 'ckpts/r101_dcn_fcos3d_pretrain.pth'
+# load_from = 'ckpts/r101_dcn_fcos3d_pretrain.pth'
 log_config = dict(
     interval=50,
     hooks=[
@@ -338,7 +337,7 @@ log_config = dict(
         dict(type='TensorboardLoggerHook')
     ])
 
-checkpoint_config = dict(interval=4)
+checkpoint_config = dict(interval=1)
 
 # ===> per class IoU of 6019 samples:
 # ===> others - IoU = 8.64

@@ -18,7 +18,7 @@ import numpy as np
 import mmcv
 import cv2 as cv
 from projects.mmdet3d_plugin.models.utils.visual import save_tensor
-from mmdet3d.ops import scatter_v2
+# from mmdet3d.ops import scatter_v2
 import torch_scatter
 from mmdet.models.builder import build_loss
 
